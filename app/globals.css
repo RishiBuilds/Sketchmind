@@ -1,26 +1,276 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --navy-base: #0C0C0A;
+  --navy-panel: #141414;
+  --navy-raised: #1a1a1a;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-hover: rgba(255, 255, 255, 0.14);
+  --lime-accent: #a3e635;
+  --lime-accent-dim: rgba(163, 230, 53, 0.15);
+  --teal-node: #4FD1C5;
+  --violet-signal: #9F7AEA;
+  --amber-note: #F0A868;
+  --fg-primary: #f0f0f0;
+  --fg-muted: #7a7a7a;
+
+  --background: var(--navy-base);
+  --foreground: var(--fg-primary);
+
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-navy-base: var(--navy-base);
+  --color-navy-panel: var(--navy-panel);
+  --color-navy-raised: var(--navy-raised);
+  --color-line: var(--line);
+  --color-line-hover: var(--line-hover);
+  --color-lime-accent: var(--lime-accent);
+  --color-teal-node: var(--teal-node);
+  --color-violet-signal: var(--violet-signal);
+  --color-amber-note: var(--amber-note);
+  --color-fg-primary: var(--fg-primary);
+  --color-fg-muted: var(--fg-muted);
+  --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--navy-base);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0;
+  color: var(--fg-primary);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--lime-accent);
+  color: #000;
+}
+
+* {
+  scrollbar-color: var(--line-hover) var(--navy-base);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--navy-raised);
+  border-radius: 999px;
+  border: 3px solid var(--navy-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--line-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--lime-accent);
+  outline-offset: 2px;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: var(--fg-muted); }
+}
+
+.hero-typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  border-right: 2px solid var(--fg-muted);
+  animation:
+    typing 2s steps(48, end) 0.5s forwards,
+    blink-cursor 0.7s step-end 0.5s 4;
+}
+
+@keyframes lime-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(163, 230, 53, 0); }
+  30% { box-shadow: 0 0 16px 4px rgba(163, 230, 53, 0.35); }
+  100% { box-shadow: 0 0 0 0 rgba(163, 230, 53, 0); }
+}
+
+.hero-generate-pulse {
+  animation: lime-pulse 1s ease-out 2.5s both;
+}
+
+@keyframes sparkle-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(72deg); }
+}
+
+.hero-sparkle-spin {
+  animation: sparkle-spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) 2.5s both;
+}
+
+@keyframes sketch-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.hero-sketch g[stroke] > :is(rect, path, line, polyline) {
+  stroke-dasharray: 340;
+  stroke-dashoffset: 340;
+  animation: sketch-draw 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes cursor-enter {
+  from { opacity: 0; transform: translate(-8px, -8px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+.hero-cursor-nudge {
+  animation: cursor-enter 0.5s ease-out 5.5s both;
+}
+
+@keyframes node-shift {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+  100% { transform: translateX(4px); }
+}
+
+.hero-node-shift {
+  animation: node-shift 0.6s ease-in-out 5.8s both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.hero-sketch text {
+  animation: fade-in 0.5s ease-out both;
+}
+
+.hero-selection-box {
+  animation: fade-in 0.4s ease-out 5.5s both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise,
+  .hero-typing,
+  .hero-generate-pulse,
+  .hero-sparkle-spin,
+  .hero-cursor-nudge,
+  .hero-node-shift,
+  .hero-sketch :is(rect, path, line, polyline),
+  .hero-sketch text {
+    animation: none !important;
+    stroke-dashoffset: 0;
+    opacity: 1;
+    width: 100%;
+    border-color: transparent;
+  }
+}
+
+.cl-modalContent,
+.cl-card {
+  background-color: var(--navy-panel) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--fg-primary) !important;
+}
+
+.cl-headerTitle {
+  color: var(--fg-primary) !important;
+  font-family: var(--font-body), sans-serif !important;
+}
+
+.cl-headerSubtitle {
+  color: var(--fg-muted) !important;
+}
+
+.cl-socialButtonsBlockButton {
+  background-color: var(--navy-raised) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--fg-primary) !important;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background-color: var(--line) !important;
+}
+
+.cl-socialButtonsBlockButtonText {
+  color: var(--fg-primary) !important;
+}
+
+.cl-formFieldLabel {
+  color: var(--fg-primary) !important;
+}
+
+.cl-formFieldInput {
+  background-color: var(--navy-raised) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--fg-primary) !important;
+}
+
+.cl-formFieldInput:focus {
+  border-color: var(--lime-accent) !important;
+  box-shadow: 0 0 0 1px var(--lime-accent) !important;
+}
+
+.cl-formButtonPrimary {
+  background-color: var(--lime-accent) !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+}
+
+.cl-formButtonPrimary:hover {
+  filter: brightness(1.1) !important;
+  transform: translateY(-1px) !important;
+}
+
+.cl-footerActionLink {
+  color: var(--lime-accent) !important;
+}
+
+.cl-footerActionLink:hover {
+  opacity: 0.85 !important;
+}
+
+.cl-footerActionText {
+  color: var(--fg-muted) !important;
+}
+
+.cl-dividerLine {
+  background-color: var(--line) !important;
+}
+
+.cl-dividerText {
+  color: var(--fg-muted) !important;
 }
