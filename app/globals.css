@@ -87,6 +87,31 @@ body {
   outline-offset: 2px;
 }
 
+.hero-board-glow {
+  position: relative;
+}
+
+.hero-board-glow::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  border-radius: 28px;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    rgba(163, 230, 53, 0.08) 0%,
+    rgba(163, 230, 53, 0.03) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+  animation: glow-breathe 6s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
 @keyframes typing {
   from { width: 0; }
   to { width: 100%; }
@@ -116,6 +141,22 @@ body {
 
 .hero-generate-pulse {
   animation: lime-pulse 1s ease-out 2.5s both;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-generate-btn {
+  background: linear-gradient(
+    110deg,
+    var(--lime-accent) 30%,
+    #d4ff50 50%,
+    var(--lime-accent) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out 3s infinite;
 }
 
 @keyframes sparkle-spin {
@@ -169,6 +210,25 @@ body {
   animation: fade-in 0.4s ease-out 5.5s both;
 }
 
+@keyframes dash-flow {
+  to { stroke-dashoffset: -12; }
+}
+
+.hero-annotation-line {
+  animation:
+    fade-in 0.6s ease-out 6.5s both,
+    dash-flow 2s linear 6.5s infinite;
+}
+
+@keyframes annotation-slide-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.hero-annotation-text {
+  animation: annotation-slide-up 0.6s ease-out 6.3s both;
+}
+
 @keyframes rise {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: none; }
@@ -176,6 +236,100 @@ body {
 
 .rise {
   animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.feature-card {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 0 0 1px rgba(163, 230, 53, 0.06),
+    0 8px 32px -8px rgba(163, 230, 53, 0.08);
+}
+
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(163, 230, 53, 0.12) 0%,
+    transparent 50%,
+    rgba(79, 209, 197, 0.08) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
+  border-radius: 13px;
+}
+
+.feature-card:hover::after {
+  opacity: 1;
+}
+
+.step-item {
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.step-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 2px;
+  height: 0;
+  background: var(--lime-accent);
+  border-radius: 2px;
+  transform: translateY(-50%);
+  transition: height 0.3s ease;
+}
+
+.step-item:hover {
+  background-color: rgba(163, 230, 53, 0.02) !important;
+}
+
+.step-item:hover::before {
+  height: 60%;
+}
+
+.pricing-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.5);
+}
+
+.pricing-card-featured {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card-featured:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 40px -16px rgba(0, 0, 0, 0.5),
+    0 0 40px -12px rgba(163, 230, 53, 0.15);
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reveal {
+  animation: reveal-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.footer-text {
+  color: #999;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -190,7 +344,11 @@ body {
   .hero-cursor-nudge,
   .hero-node-shift,
   .hero-sketch :is(rect, path, line, polyline),
-  .hero-sketch text {
+  .hero-sketch text,
+  .hero-annotation-line,
+  .hero-annotation-text,
+  .hero-board-glow::before,
+  .hero-generate-btn {
     animation: none !important;
     stroke-dashoffset: 0;
     opacity: 1;
