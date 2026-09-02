@@ -133,7 +133,7 @@ function FeatureCard({
 }: (typeof features)[number]) {
   const s = semanticStyles[semantic];
   return (
-    <article className="rounded-xl border border-white/[0.08] bg-navy-panel p-7 transition-colors hover:border-white/[0.14]">
+    <article className="feature-card rounded-xl bg-navy-panel p-7">
       <span
         className={`mb-6 grid h-9 w-9 place-items-center rounded-lg border ${s.boxBorder} ${s.boxBg} ${s.iconColor}`}
       >
@@ -167,7 +167,7 @@ function StepItem({
 }) {
   return (
     <li
-      className={`p-7 ${
+      className={`step-item p-7 ${
         isLast ? "" : "border-b md:border-b-0 md:border-r border-white/[0.08]"
       }`}
       style={{ background: "var(--navy-base)" }}
@@ -187,7 +187,7 @@ function StepItem({
 
 function HeroBoard() {
   return (
-    <div className="relative">
+    <div className="hero-board-glow relative">
       <p className="sr-only">
         Animated demo: typing &quot;microservices architecture for a food
         delivery app&quot; generates a client app connected through an API
@@ -223,7 +223,7 @@ function HeroBoard() {
             <span className="hero-typing text-sm text-fg-muted">
               microservices architecture for a food delivery app
             </span>
-            <span className="hero-generate-pulse ml-auto shrink-0 rounded-md bg-lime-accent px-2.5 py-1 text-[11px] font-semibold text-black">
+            <span className="hero-generate-pulse hero-generate-btn ml-auto shrink-0 rounded-md px-2.5 py-1 text-[11px] font-semibold text-black">
               Generate
             </span>
           </div>
@@ -358,23 +358,32 @@ function HeroBoard() {
 
           <g>
             <path
-              d="M 195 204 C 215 204, 222 175, 225 152"
+              className="hero-annotation-line"
+              d="M 192 200 C 200 196, 210 178, 216 152"
               fill="none"
               stroke="var(--lime-accent)"
               strokeWidth="1"
-              strokeDasharray="2 2"
+              strokeDasharray="3 3"
+              opacity="0.35"
+            />
+            <circle
+              className="hero-annotation-line"
+              cx="216"
+              cy="150"
+              r="2"
+              fill="var(--lime-accent)"
               opacity="0.4"
-              style={{ animationDelay: "6500ms" }}
             />
             <text
+              className="hero-annotation-text"
               x="24"
-              y="208"
+              y="210"
               fill="var(--lime-accent)"
-              fontSize="13"
+              fontSize="12.5"
               fontFamily="var(--font-body)"
               fontWeight="400"
               fontStyle="italic"
-              style={{ animationDelay: "6500ms" }}
+              opacity="0.55"
             >
               every shape is still yours to move
             </text>
@@ -584,7 +593,7 @@ export default async function Home() {
           </div>
 
           <div className="mt-14 grid items-stretch gap-6 lg:grid-cols-3">
-            <div className="flex flex-col rounded-xl border border-white/[0.08] bg-navy-panel p-8">
+            <div className="pricing-card flex flex-col rounded-xl border border-white/[0.08] bg-navy-panel p-8">
               <p className="text-[13px] font-semibold uppercase tracking-wider text-fg-muted">
                 Free
               </p>
@@ -631,7 +640,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="relative flex flex-col rounded-xl border border-[rgba(163,230,53,0.3)] bg-navy-panel p-8 shadow-[0_0_40px_-12px_rgba(163,230,53,0.12)]">
+            <div className="pricing-card-featured relative flex flex-col rounded-xl border border-[rgba(163,230,53,0.3)] bg-navy-panel p-8 shadow-[0_0_40px_-12px_rgba(163,230,53,0.12)]">
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-lime-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-black">
                 Popular
               </span>
@@ -681,7 +690,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="flex flex-col rounded-xl border border-white/[0.08] bg-navy-panel p-8">
+            <div className="pricing-card flex flex-col rounded-xl border border-white/[0.08] bg-navy-panel p-8">
               <p className="text-[13px] font-semibold uppercase tracking-wider text-fg-muted">
                 Team
               </p>
@@ -751,10 +760,10 @@ export default async function Home() {
 
       <footer className="border-t border-white/[0.06]">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 py-8 sm:px-8">
-          <span className="text-[11px] font-semibold text-fg-muted">
+          <span className="footer-text text-[11px] font-semibold">
             SketchMind
           </span>
-          <span className="text-[11px] text-fg-muted">
+          <span className="footer-text text-[11px]">
             Built with Next.js &amp; Excalidraw
           </span>
         </div>
