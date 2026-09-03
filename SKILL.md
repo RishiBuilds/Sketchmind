@@ -1,4 +1,6 @@
-Conventions and guardrails for working on this codebase. Read before touching anything.
+# Sketchmind Guidelines & Workflow
+
+Core conventions and engineering guardrails for developing Sketchmind. Read before touching anything.
 
 ---
 
@@ -9,8 +11,7 @@ Conventions and guardrails for working on this codebase. Read before touching an
   Forgetting this will cause hard crashes during SSR that aren't obvious to debug
 - Workspace layout should hold a fixed 100vh with overflow hidden - any scrollbar
   appearing on the canvas view is a bug, not a feature
-- Keep client and server boundaries explicit; if you're unsure, err on the side of
-  marking it `"use client"` and moving on
+- Keep client and server boundaries explicit; extract client interactivity into dedicated leaf components
 
 ---
 
@@ -43,7 +44,7 @@ Conventions and guardrails for working on this codebase. Read before touching an
 - Clerk middleware protects `/dashboard` and `/workspace/*` - landing page (`/`) stays public
 - Every DB query that touches whiteboard records must be scoped to the active `userId`.
   No exceptions, no "we'll add that filter later"
-- Don't expose raw DB errors to the client; log server-side, return generic messages
+- Don't expose raw DB errors to the client; log server-side, return generic friendly messages
 
 ---
 
