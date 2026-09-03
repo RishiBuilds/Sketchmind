@@ -7,6 +7,7 @@ import {
   SignUpButton,
   UserButton,
 } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import "./globals.css";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-navy-base text-fg-primary">
         <ClerkProvider
           appearance={{
+            baseTheme: dark,
             variables: {
               colorPrimary: "#a3e635",
               colorPrimaryForeground: "#0a0a0a",
