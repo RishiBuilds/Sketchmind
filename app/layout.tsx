@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-navy-base text-fg-primary">
         <ClerkProvider
           appearance={{
-            baseTheme: dark,
+            theme: dark,
             variables: {
               colorPrimary: "#a3e635",
               colorPrimaryForeground: "#0a0a0a",
