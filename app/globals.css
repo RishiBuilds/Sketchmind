@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --navy-base: #0C0C0A;
-  --navy-panel: #141414;
-  --navy-raised: #1a1a1a;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-hover: rgba(255, 255, 255, 0.14);
-  --lime-accent: #a3e635;
-  --lime-accent-dim: rgba(163, 230, 53, 0.15);
-  --teal-node: #4FD1C5;
-  --violet-signal: #9F7AEA;
-  --amber-note: #F0A868;
-  --fg-primary: #f0f0f0;
-  --fg-muted: #7a7a7a;
+  --canvas:    #1B1A17;
+  --chalk:     #F2EDE4;
+  --ink:       #4A6CF7;
+  --ink-dim:   rgba(74, 108, 247, 0.15);
+  --coral:     #E8734A;
+  --coral-dim: rgba(232, 115, 74, 0.15);
+  --graphite:  #3A3935;
+  --smudge:    #8A857A;
+  --teal-soft: #5BA6A0;
 
-  --background: var(--navy-base);
-  --foreground: var(--fg-primary);
+  --fg-primary: var(--chalk);
+  --fg-muted:   var(--smudge);
+
+  --background: var(--canvas);
+  --foreground: var(--chalk);
 
   color-scheme: dark;
 }
@@ -23,19 +23,21 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-navy-base: var(--navy-base);
-  --color-navy-panel: var(--navy-panel);
-  --color-navy-raised: var(--navy-raised);
-  --color-line: var(--line);
-  --color-line-hover: var(--line-hover);
-  --color-lime-accent: var(--lime-accent);
-  --color-teal-node: var(--teal-node);
-  --color-violet-signal: var(--violet-signal);
-  --color-amber-note: var(--amber-note);
+  --color-canvas: var(--canvas);
+  --color-chalk: var(--chalk);
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --color-coral: var(--coral);
+  --color-coral-dim: var(--coral-dim);
+  --color-graphite: var(--graphite);
+  --color-smudge: var(--smudge);
+  --color-teal-soft: var(--teal-soft);
   --color-fg-primary: var(--fg-primary);
   --color-fg-muted: var(--fg-muted);
   --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-instrument);
+  --font-hand: var(--font-caveat);
 }
 
 html {
@@ -43,83 +45,81 @@ html {
 }
 
 body {
-  background-color: var(--navy-base);
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: 0 0;
-  color: var(--fg-primary);
+  background-color: var(--canvas);
+  background-image: radial-gradient(circle, rgba(242, 237, 228, 0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--chalk);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: var(--lime-accent);
-  color: #000;
+  background-color: var(--ink);
+  color: #fff;
 }
 
 * {
-  scrollbar-color: var(--line-hover) var(--navy-base);
+  scrollbar-color: rgba(138, 133, 122, 0.3) var(--canvas);
   scrollbar-width: thin;
 }
 
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--navy-base);
-}
-
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--canvas); }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--navy-raised);
+  background-color: var(--graphite);
   border-radius: 999px;
-  border: 3px solid var(--navy-base);
+  border: 3px solid var(--canvas);
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--line-hover);
-}
+::-webkit-scrollbar-thumb:hover { background-color: var(--smudge); }
 
 :focus-visible {
-  outline: 2px solid var(--lime-accent);
+  outline: 2px solid var(--ink);
   outline-offset: 2px;
 }
 
-.hero-board-glow {
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.hero-demo-glow {
   position: relative;
 }
 
-.hero-board-glow::before {
+.hero-demo-glow::before {
   content: "";
   position: absolute;
-  inset: -40px;
-  border-radius: 28px;
+  inset: -50px;
+  border-radius: 32px;
   background: radial-gradient(
     ellipse at 50% 40%,
-    rgba(163, 230, 53, 0.08) 0%,
-    rgba(163, 230, 53, 0.03) 40%,
+    rgba(74, 108, 247, 0.07) 0%,
+    rgba(74, 108, 247, 0.025) 45%,
     transparent 70%
   );
   pointer-events: none;
   z-index: -1;
-  animation: glow-breathe 6s ease-in-out infinite;
+  animation: glow-breathe 7s ease-in-out infinite;
 }
 
 @keyframes glow-breathe {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.03); }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.04); }
 }
 
 @keyframes typing {
   from { width: 0; }
-  to { width: 100%; }
+  to   { width: 100%; }
 }
 
 @keyframes blink-cursor {
   0%, 100% { border-color: transparent; }
-  50% { border-color: var(--fg-muted); }
+  50%      { border-color: var(--smudge); }
 }
 
 .hero-typing {
@@ -127,52 +127,52 @@ body {
   overflow: hidden;
   white-space: nowrap;
   width: 0;
-  border-right: 2px solid var(--fg-muted);
+  border-right: 2px solid var(--smudge);
   animation:
-    typing 2s steps(48, end) 0.5s forwards,
-    blink-cursor 0.7s step-end 0.5s 4;
+    typing 2.2s steps(48, end) 0.6s forwards,
+    blink-cursor 0.7s step-end 0.6s 4;
 }
 
-@keyframes lime-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(163, 230, 53, 0); }
-  30% { box-shadow: 0 0 16px 4px rgba(163, 230, 53, 0.35); }
-  100% { box-shadow: 0 0 0 0 rgba(163, 230, 53, 0); }
+@keyframes ink-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(74, 108, 247, 0); }
+  30%  { box-shadow: 0 0 18px 4px rgba(74, 108, 247, 0.35); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 108, 247, 0); }
 }
 
 .hero-generate-pulse {
-  animation: lime-pulse 1s ease-out 2.5s both;
+  animation: ink-pulse 1s ease-out 2.8s both;
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% center; }
+  0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
 
 .hero-generate-btn {
   background: linear-gradient(
     110deg,
-    var(--lime-accent) 30%,
-    #d4ff50 50%,
-    var(--lime-accent) 70%
+    var(--ink) 30%,
+    #6B8AFF 50%,
+    var(--ink) 70%
   );
   background-size: 200% 100%;
-  animation: shimmer 3s ease-in-out 3s infinite;
+  animation: shimmer 3s ease-in-out 3.2s infinite;
 }
 
 @keyframes sparkle-spin {
   from { transform: rotate(0deg); }
-  to { transform: rotate(72deg); }
+  to   { transform: rotate(72deg); }
 }
 
 .hero-sparkle-spin {
-  animation: sparkle-spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) 2.5s both;
+  animation: sparkle-spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) 2.8s both;
 }
 
 @keyframes sketch-draw {
   to { stroke-dashoffset: 0; }
 }
 
-.hero-sketch g[stroke] > :is(rect, path, line, polyline) {
+.hero-sketch g[stroke] > :is(rect, path, line, polyline, ellipse) {
   stroke-dasharray: 340;
   stroke-dashoffset: 340;
   animation: sketch-draw 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
@@ -180,7 +180,7 @@ body {
 
 @keyframes cursor-enter {
   from { opacity: 0; transform: translate(-8px, -8px); }
-  to { opacity: 1; transform: translate(0, 0); }
+  to   { opacity: 1; transform: translate(0, 0); }
 }
 
 .hero-cursor-nudge {
@@ -188,8 +188,8 @@ body {
 }
 
 @keyframes node-shift {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(6px); }
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(6px); }
   100% { transform: translateX(4px); }
 }
 
@@ -199,7 +199,7 @@ body {
 
 @keyframes fade-in {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
 .hero-sketch text {
@@ -222,120 +222,92 @@ body {
 
 @keyframes annotation-slide-up {
   from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
+  to   { opacity: 1; transform: none; }
 }
 
 .hero-annotation-text {
   animation: annotation-slide-up 0.6s ease-out 6.3s both;
 }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; }
+@keyframes dash-march {
+  to { stroke-dashoffset: -16; }
 }
 
-.rise {
-  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+.flow-connector {
+  stroke-dasharray: 6 4;
+  animation: dash-march 1.5s linear infinite;
 }
 
 .feature-card {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border-left: 3px solid var(--smudge);
+  transition: border-color 0.3s ease;
 }
+
+.feature-card--ink    { border-left-color: var(--ink); }
+.feature-card--coral  { border-left-color: var(--coral); }
+.feature-card--teal   { border-left-color: var(--teal-soft); }
 
 .feature-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow:
-    0 0 0 1px rgba(163, 230, 53, 0.06),
-    0 8px 32px -8px rgba(163, 230, 53, 0.08);
+  border-left-color: var(--chalk);
 }
 
-.feature-card::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(163, 230, 53, 0.12) 0%,
-    transparent 50%,
-    rgba(79, 209, 197, 0.08) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  z-index: -1;
-  border-radius: 13px;
+.pricing-free {
 }
 
-.feature-card:hover::after {
-  opacity: 1;
-}
-
-.step-item {
+.pricing-pro {
   position: relative;
-  transition: background-color 0.3s ease;
+  background: var(--graphite);
+  border-left: 3px solid var(--coral);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.step-item::before {
+.pricing-pro:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px -12px rgba(232, 115, 74, 0.12);
+}
+
+.pricing-team {
+  position: relative;
+  background: var(--graphite);
+  border-left: 3px solid var(--ink);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-team::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 50%;
-  width: 2px;
-  height: 0;
-  background: var(--lime-accent);
-  border-radius: 2px;
-  transform: translateY(-50%);
-  transition: height 0.3s ease;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 27px,
+    rgba(138, 133, 122, 0.06) 27px,
+    rgba(138, 133, 122, 0.06) 28px
+  );
+  pointer-events: none;
+  border-radius: inherit;
 }
 
-.step-item:hover {
-  background-color: rgba(163, 230, 53, 0.02) !important;
+.pricing-team:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px -12px rgba(74, 108, 247, 0.12);
 }
 
-.step-item:hover::before {
-  height: 60%;
-}
-
-.pricing-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.pricing-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px -16px rgba(0, 0, 0, 0.5);
-}
-
-.pricing-card-featured {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.pricing-card-featured:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 20px 40px -16px rgba(0, 0, 0, 0.5),
-    0 0 40px -12px rgba(163, 230, 53, 0.15);
-}
-
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: none; }
-}
-
-.reveal {
-  animation: reveal-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+.squiggle-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='8' viewBox='0 0 80 8'%3E%3Cpath d='M0 5 Q10 0 20 5 Q30 10 40 5 Q50 0 60 5 Q70 10 80 5' stroke='%238A857A' stroke-width='1.5' fill='none' opacity='0.4'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: bottom;
+  background-size: 80px 8px;
+  padding-bottom: 8px;
 }
 
 .footer-text {
-  color: #999;
+  color: var(--smudge);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 
   .rise,
   .hero-typing,
@@ -343,12 +315,14 @@ body {
   .hero-sparkle-spin,
   .hero-cursor-nudge,
   .hero-node-shift,
-  .hero-sketch :is(rect, path, line, polyline),
+  .hero-sketch :is(rect, path, line, polyline, ellipse),
   .hero-sketch text,
   .hero-annotation-line,
   .hero-annotation-text,
-  .hero-board-glow::before,
-  .hero-generate-btn {
+  .hero-demo-glow::before,
+  .hero-generate-btn,
+  .hero-selection-box,
+  .flow-connector {
     animation: none !important;
     stroke-dashoffset: 0;
     opacity: 1;
@@ -359,52 +333,52 @@ body {
 
 .cl-modalContent,
 .cl-card {
-  background-color: var(--navy-panel) !important;
-  border: 1px solid var(--line) !important;
-  color: var(--fg-primary) !important;
+  background-color: var(--graphite) !important;
+  border: 1px solid rgba(138, 133, 122, 0.15) !important;
+  color: var(--chalk) !important;
 }
 
 .cl-headerTitle {
-  color: var(--fg-primary) !important;
+  color: var(--chalk) !important;
   font-family: var(--font-body), sans-serif !important;
 }
 
 .cl-headerSubtitle {
-  color: var(--fg-muted) !important;
+  color: var(--smudge) !important;
 }
 
 .cl-socialButtonsBlockButton {
-  background-color: var(--navy-raised) !important;
-  border: 1px solid var(--line) !important;
-  color: var(--fg-primary) !important;
+  background-color: var(--canvas) !important;
+  border: 1px solid rgba(138, 133, 122, 0.15) !important;
+  color: var(--chalk) !important;
 }
 
 .cl-socialButtonsBlockButton:hover {
-  background-color: var(--line) !important;
+  background-color: rgba(138, 133, 122, 0.1) !important;
 }
 
 .cl-socialButtonsBlockButtonText {
-  color: var(--fg-primary) !important;
+  color: var(--chalk) !important;
 }
 
 .cl-formFieldLabel {
-  color: var(--fg-primary) !important;
+  color: var(--chalk) !important;
 }
 
 .cl-formFieldInput {
-  background-color: var(--navy-raised) !important;
-  border: 1px solid var(--line) !important;
-  color: var(--fg-primary) !important;
+  background-color: var(--canvas) !important;
+  border: 1px solid rgba(138, 133, 122, 0.15) !important;
+  color: var(--chalk) !important;
 }
 
 .cl-formFieldInput:focus {
-  border-color: var(--lime-accent) !important;
-  box-shadow: 0 0 0 1px var(--lime-accent) !important;
+  border-color: var(--ink) !important;
+  box-shadow: 0 0 0 1px var(--ink) !important;
 }
 
 .cl-formButtonPrimary {
-  background-color: var(--lime-accent) !important;
-  color: #000 !important;
+  background-color: var(--ink) !important;
+  color: #fff !important;
   font-weight: 600 !important;
 }
 
@@ -414,7 +388,7 @@ body {
 }
 
 .cl-footerActionLink {
-  color: var(--lime-accent) !important;
+  color: var(--ink) !important;
 }
 
 .cl-footerActionLink:hover {
@@ -422,13 +396,13 @@ body {
 }
 
 .cl-footerActionText {
-  color: var(--fg-muted) !important;
+  color: var(--smudge) !important;
 }
 
 .cl-dividerLine {
-  background-color: var(--line) !important;
+  background-color: rgba(138, 133, 122, 0.15) !important;
 }
 
 .cl-dividerText {
-  color: var(--fg-muted) !important;
+  color: var(--smudge) !important;
 }
