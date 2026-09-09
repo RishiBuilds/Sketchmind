@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
-import { createWhiteboard, deleteWhiteboard, renameWhiteboard } from "@/lib/db/queries";
+import { createWhiteboard, deleteWhiteboard, getWhiteboard, renameWhiteboard } from "@/lib/db/queries";
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
@@ -57,6 +57,24 @@ export async function deleteBoardAction(id: string): Promise<ActionResult> {
   if (!deleted) {
     return { ok: false, error: "That board no longer exists." };
   }
+
+  revalidatePath("/dashboard");
+  return { ok: true };
+}
+
+export async function duplicateBoardAction(sourceId: string): Promise<ActionResult> {
+  const userId = await requireUserId();
+  const source = await getWhiteboard(sourceId, userId);
+
+  if (!source) {
+    return { ok: false, error: "Source board no longer exists." };
+  }
+
+  const title = normalizeTitle(`Copy of ${source.title}`);
+  await createWhiteboard(userId, {
+    title,
+    elements: source.elements,
+  });
 
   revalidatePath("/dashboard");
   return { ok: true };

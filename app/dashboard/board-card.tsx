@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { deleteBoardAction, renameBoardAction } from "./actions";
+import { deleteBoardAction, duplicateBoardAction, renameBoardAction } from "./actions";
 
 type BoardCardProps = {
   id: string;
@@ -48,6 +48,19 @@ export function BoardCard({ id, title, elementCount, updatedLabel }: BoardCardPr
       }
 
       close();
+      router.refresh();
+    });
+  }
+
+  function handleDuplicate() {
+    startTransition(async () => {
+      const result = await duplicateBoardAction(id);
+
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+
       router.refresh();
     });
   }
@@ -110,6 +123,19 @@ export function BoardCard({ id, title, elementCount, updatedLabel }: BoardCardPr
             >
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
                 <path d="M11.5 2.5a1.91 1.91 0 0 1 2.7 2.7L5.8 13.6 2 14.5l.9-3.8z" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={handleDuplicate}
+              disabled={pending}
+              data-tip="Duplicate"
+              className="tooltip grid h-7 w-7 place-items-center rounded-lg bg-[rgba(138,133,122,0.1)] text-smudge transition-colors hover:bg-[rgba(138,133,122,0.18)] hover:text-chalk focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink disabled:opacity-40"
+              aria-label="Duplicate board"
+            >
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="5" y="5" width="8" height="8" rx="1.5" />
+                <path d="M3 11V3a1.5 1.5 0 0 1 1.5-1.5H11" />
               </svg>
             </button>
             <button
