@@ -32,14 +32,14 @@ type WorkspaceProps = {
 
 export function Workspace({ boardId, title, initialScene }: WorkspaceProps) {
   const apiRef = useRef<ExcalidrawImperativeAPI | null>(null);
-  const [ready, setReady] = useState(false);
+  const [api, setApi] = useState<ExcalidrawImperativeAPI | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
   const { status, handleChange } = useAutosave(boardId);
 
-  const handleApiReady = useCallback((api: ExcalidrawImperativeAPI) => {
-    apiRef.current = api;
-    setReady(true);
+  const handleApiReady = useCallback((canvasApi: ExcalidrawImperativeAPI) => {
+    apiRef.current = canvasApi;
+    setApi(canvasApi);
   }, []);
 
   const handleGenerate = useCallback(async (prompt: string) => {
@@ -114,7 +114,7 @@ export function Workspace({ boardId, title, initialScene }: WorkspaceProps) {
           <EditableTitle boardId={boardId} initialTitle={title} />
           <SaveIndicator status={status} />
           <div className="h-4 w-px bg-[rgba(138,133,122,0.15)]" aria-hidden />
-          <ExportMenu api={apiRef.current} />
+          <ExportMenu api={api} />
           <div className="h-4 w-px bg-[rgba(138,133,122,0.15)]" aria-hidden />
           <button
             type="button"
@@ -145,7 +145,7 @@ export function Workspace({ boardId, title, initialScene }: WorkspaceProps) {
         </div>
       </div>
 
-      <PromptBar onSubmit={handleGenerate} disabled={!ready} />
+      <PromptBar onSubmit={handleGenerate} disabled={!api} />
 
       <PromptHistory
         entries={history}

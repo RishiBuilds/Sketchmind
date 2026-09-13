@@ -7,6 +7,7 @@ import {
   useTransform,
   useReducedMotion,
   AnimatePresence,
+  type Variants,
 } from "framer-motion";
 
 import {
@@ -27,7 +28,6 @@ const TYPING_DEMO_PROMPT = "user clicks login → validate → dashboard";
 const TYPING_SPEED_MS = 55;
 const DIAGRAM_DRAW_DURATION = 0.8;
 const LOOP_PAUSE_MS = 3000;
-const LOOP_TOTAL_MS = 8000;
 
 function DotGridBackground() {
   const prefersReduced = useReducedMotion();
@@ -97,7 +97,7 @@ function RadialGlow() {
   );
 }
 
-const wordRevealContainer = {
+const wordRevealContainer: Variants = {
   hidden: {},
   visible: {
     transition: {
@@ -107,40 +107,18 @@ const wordRevealContainer = {
   },
 };
 
-const wordRevealChild = {
+const wordRevealChild: Variants = {
   hidden: { opacity: 0, y: 18 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.5,
-      ease: [0.2, 0.7, 0.2, 1],
+      ease: [0.2, 0.7, 0.2, 1] as const,
     },
   },
 };
 
-function StaggeredWords({
-  text,
-  className,
-}: {
-  text: string;
-  className?: string;
-}) {
-  return (
-    <>
-      {text.split(" ").map((word, i) => (
-        <motion.span
-          key={`${word}-${i}`}
-          variants={wordRevealChild}
-          className={`inline-block ${className || ""}`}
-          style={{ willChange: "transform, opacity" }}
-        >
-          {word}&nbsp;
-        </motion.span>
-      ))}
-    </>
-  );
-}
 
 function SquiggleUnderline({ delay = 1.2 }: { delay?: number }) {
   const prefersReduced = useReducedMotion();
@@ -180,6 +158,9 @@ function TypingDiagramDemo() {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const activeText = prefersReduced ? TYPING_DEMO_PROMPT : typedText;
+  const activePhase = prefersReduced ? "diagram" : phase;
+
   useEffect(() => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -188,11 +169,7 @@ function TypingDiagramDemo() {
   }, []);
 
   useEffect(() => {
-    if (prefersReduced) {
-      setTypedText(TYPING_DEMO_PROMPT);
-      setPhase("diagram");
-      return;
-    }
+    if (prefersReduced) return;
 
     let charIndex = 0;
 
@@ -258,14 +235,14 @@ function TypingDiagramDemo() {
             <path d="m12 3 1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z" />
           </svg>
           <span className="text-[12px] text-smudge font-mono truncate min-h-[18px] flex-1">
-            {typedText}
-            {phase === "typing" && (
+            {activeText}
+            {activePhase === "typing" && (
               <span className="demo-cursor inline-block w-[1px] h-[14px] bg-smudge ml-[1px] align-text-bottom" />
             )}
           </span>
           <span
             className={`shrink-0 rounded-md px-2 py-1 text-[10px] font-semibold text-white transition-colors ${
-              phase === "typing" && typedText.length > 10
+              activePhase === "typing" && activeText.length > 10
                 ? "bg-ink"
                 : "bg-[rgba(74,108,247,0.3)]"
             }`}
@@ -282,7 +259,7 @@ function TypingDiagramDemo() {
           aria-label="Animated flowchart: login to validate to dashboard"
         >
           <AnimatePresence mode="wait">
-            {(phase === "diagram" || (prefersReduced && phase === "diagram")) && (
+            {activePhase === "diagram" && (
               <motion.g
                 key="diagram"
                 initial={prefersReduced ? { opacity: 1 } : { opacity: 0 }}
